@@ -18,7 +18,9 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 {
-	options.SignIn.RequireConfirmedAccount = true;
+	//options.SignIn.RequireConfirmedAccount = true;
+	options.SignIn.RequireConfirmedAccount = false;
+
 
 	// IZINKAN password sederhana seperti "sau"
 	options.Password.RequireDigit = false;
