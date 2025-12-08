@@ -138,7 +138,7 @@ namespace WebProgramlamaFinalProject.Areas.Identity.Pages.Account
 
 					if (roles.Contains("Admin"))
 					{
-						return RedirectToAction("Index", "Admin");
+						return RedirectToAction("Dashboard", "Admin");
 					}
 					else
 					{
