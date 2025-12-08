@@ -1,0 +1,29 @@
+﻿@model IEnumerable<WebProgramlamaFinalProject.Models.Trainer>
+
+<h2>Manage Trainers</h2>
+
+<a class="btn btn-success" href="/Admin/CreateTrainer">Add Trainer</a>
+
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Specialization</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var t in Model)
+        {
+            <tr>
+                <td>@t.Name</td>
+                <td>@t.Specialization</td>
+                <td>
+                    <a href="/Admin/EditTrainer/@t.Id" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="/Admin/DeleteTrainer/@t.Id" class="btn btn-danger btn-sm">Delete</a>
+                    <a href="/Admin/SetSchedule/@t.Id" class="btn btn-info btn-sm">Schedule</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

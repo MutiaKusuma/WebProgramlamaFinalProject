@@ -5,6 +5,10 @@ namespace WebProgramlamaFinalProject.Models
 {
 	public class Trainer
 	{
+		public Trainer()
+		{
+			Schedules = new List<TrainerSchedule>();
+		}
 		public int Id { get; set; }
 
 		[Required]
