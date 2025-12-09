@@ -119,6 +119,64 @@ namespace WebProgramlamaFinalProject.Controllers
 		}
 
 
+		// GET: Set Schedule form
+		[HttpGet]
+		public IActionResult SetSchedule(int id)
+		{
+			var trainer = _context.Trainers.FirstOrDefault(t => t.Id == id);
+			if (trainer == null)
+				return NotFound();
+
+			var schedules = _context.TrainerSchedules
+				.Where(s => s.TrainerId == id)
+				.ToList();
+
+			ViewBag.TrainerName = trainer.Name;
+			ViewBag.TrainerId = trainer.Id;
+
+			return View(schedules);
+		}
+
+
+		// POST: Save new schedule
+		[HttpPost]
+		public IActionResult SetSchedule(int id, DayOfWeek dayOfWeek, TimeSpan startTime, TimeSpan endTime)
+		{
+			if (startTime >= endTime)
+			{
+				ModelState.AddModelError("", "Start time must be before End time");
+				return RedirectToAction("SetSchedule", new { id });
+			}
+
+			var schedule = new TrainerSchedule
+			{
+				TrainerId = id,
+				DayOfWeek = dayOfWeek,
+				StartTime = startTime,
+				EndTime = endTime
+			};
+
+			_context.TrainerSchedules.Add(schedule);
+			_context.SaveChanges();
+
+			return RedirectToAction("SetSchedule", new { id });
+		}
+
+		public IActionResult DeleteSchedule(int id, int trainerId)
+		{
+			var schedule = _context.TrainerSchedules.FirstOrDefault(s => s.Id == id);
+
+			if (schedule == null)
+				return NotFound();
+
+			_context.TrainerSchedules.Remove(schedule);
+			_context.SaveChanges();
+
+			return RedirectToAction("SetSchedule", new { id = trainerId });
+
+		}
+
+
 		// ================== Trainers ==================//
 		// ================== Trainers ==================//
 		// ================== Trainers ==================//

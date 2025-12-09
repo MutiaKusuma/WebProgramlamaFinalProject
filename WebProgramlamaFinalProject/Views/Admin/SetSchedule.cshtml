@@ -1,0 +1,63 @@
+﻿@model List<WebProgramlamaFinalProject.Models.TrainerSchedule>
+@{
+    ViewBag.Title = "Set Schedule";
+}
+
+<h2>Set Schedule for @ViewBag.TrainerName</h2>
+
+<!-- Form untuk tambah jadwal -->
+<form asp-action="SetSchedule" method="post">
+    <input type="hidden" name="trainerId" value="@ViewBag.TrainerId" />
+    <div class="form-group">
+        <label>Day of Week</label>
+        <select name="dayOfWeek" class="form-control">
+            @foreach (var day in Enum.GetValues(typeof(DayOfWeek)))
+            {
+                <option value="@day">@day</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label>Start Time</label>
+        <input type="time" name="startTime" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label>End Time</label>
+        <input type="time" name="endTime" class="form-control" required />
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Add Schedule</button>
+</form>
+
+<hr />
+
+<a href="/Admin/ManageTrainers" class="btn btn-secondary mb-3">
+    ← Back to Trainers
+</a>
+
+
+<h3>Existing Schedules</h3>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Day</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var s in Model)
+        {
+            <tr>
+                <td>@s.DayOfWeek</td>
+                <td>@s.StartTime</td>
+                <td>@s.EndTime</td>
+                <td>
+                    <a href="/Admin/DeleteSchedule?id=@s.Id&trainerId=@ViewBag.TrainerId"
+                       class="btn btn-danger btn-sm">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
