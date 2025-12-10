@@ -1,0 +1,61 @@
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
+
+namespace WebProgramlamaFinalProject.Data.Migrations
+{
+    /// <inheritdoc />
+    public partial class AddTrainerServiceRelation : Migration
+    {
+        /// <inheritdoc />
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropColumn(
+                name: "Specialization",
+                table: "Trainers");
+
+            migrationBuilder.CreateTable(
+                name: "TrainerServices",
+                columns: table => new
+                {
+                    TrainerId = table.Column<int>(type: "int", nullable: false),
+                    ServiceId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TrainerServices", x => new { x.TrainerId, x.ServiceId });
+                    table.ForeignKey(
+                        name: "FK_TrainerServices_Services_ServiceId",
+                        column: x => x.ServiceId,
+                        principalTable: "Services",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TrainerServices_Trainers_TrainerId",
+                        column: x => x.TrainerId,
+                        principalTable: "Trainers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TrainerServices_ServiceId",
+                table: "TrainerServices",
+                column: "ServiceId");
+        }
+
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropTable(
+                name: "TrainerServices");
+
+            migrationBuilder.AddColumn<string>(
+                name: "Specialization",
+                table: "Trainers",
+                type: "nvarchar(max)",
+                nullable: false,
+                defaultValue: "");
+        }
+    }
+}

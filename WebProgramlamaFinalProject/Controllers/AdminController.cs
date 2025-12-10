@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using WebProgramlamaFinalProject.Data;
 using WebProgramlamaFinalProject.Models;
+using WebProgramlamaFinalProject.Models.ViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebProgramlamaFinalProject.Controllers
 {
@@ -40,34 +42,67 @@ namespace WebProgramlamaFinalProject.Controllers
 		// ================== Trainers ==================//
 		// ================== Trainers ==================//
 		// ================== Trainers ==================//
-		public IActionResult ManageTrainers()
+		/*public IActionResult ManageTrainers()
 		{
 			var trainers = _context.Trainers.ToList();
 			return View(trainers);
-		}
+		}*/
 
+
+		public IActionResult ManageTrainers()
+		{
+			var trainers = _context.Trainers
+				.Include(t => t.TrainerServices)       // load relasi many-to-many
+					.ThenInclude(ts => ts.Service)     // load Service dari relasi
+				.ToList();
+
+			return View(trainers);
+		}
 
 		[HttpGet]
 		public IActionResult CreateTrainer()
 		{
-			return View();
-		}
+			var vm = new TrainerFormViewModel
+			{
+				Trainer = new Trainer(),
+				Services = _context.Services.ToList(),
+				SelectedServiceIds = new List<int>()
+			};
 
+			return View(vm);
+		}
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public IActionResult CreateTrainer(Trainer model)
+		public IActionResult CreateTrainer([FromForm] TrainerFormViewModel model)
 		{
 			if (!ModelState.IsValid)
 			{
+				// reload services supaya checkbox tidak hilang
+				model.Services = _context.Services.ToList();
 				return View(model);
 			}
 
-			_context.Trainers.Add(model);
+			// 1️⃣ Simpan trainer dulu
+			_context.Trainers.Add(model.Trainer);
+			_context.SaveChanges();
+
+			// 2️⃣ Simpan relasi many-to-many
+			foreach (var serviceId in model.SelectedServiceIds)
+			{
+				var ts = new TrainerService
+				{
+					TrainerId = model.Trainer.Id,
+					ServiceId = serviceId
+				};
+				_context.TrainerServices.Add(ts);
+			}
+
 			_context.SaveChanges();
 
 			return RedirectToAction("ManageTrainers");
 		}
+
 
 		public IActionResult DeleteTrainer(int id)
 		{
@@ -87,31 +122,60 @@ namespace WebProgramlamaFinalProject.Controllers
 			return RedirectToAction("ManageTrainers");
 		}
 
-
 		// GET: /Admin/EditTrainer/5
 		[HttpGet]
 		public IActionResult EditTrainer(int id)
 		{
-			var trainer = _context.Trainers.FirstOrDefault(t => t.Id == id);
+			var trainer = _context.Trainers
+				.Include(t => t.TrainerServices)
+				.FirstOrDefault(t => t.Id == id);
+
 			if (trainer == null)
 				return NotFound();
 
-			return View(trainer);
+			var vm = new TrainerFormViewModel
+			{
+				Trainer = trainer,
+				Services = _context.Services.ToList(),
+				SelectedServiceIds = trainer.TrainerServices.Select(ts => ts.ServiceId).ToList()
+			};
+
+			return View(vm);
 		}
 
 		// POST: /Admin/EditTrainer/5
 		[HttpPost]
-		public IActionResult EditTrainer(Trainer model)
+		[ValidateAntiForgeryToken]
+		public IActionResult EditTrainer([FromForm] TrainerFormViewModel model)
 		{
 			if (!ModelState.IsValid)
+			{
+				model.Services = _context.Services.ToList();
 				return View(model);
+			}
 
-			var trainer = _context.Trainers.FirstOrDefault(t => t.Id == model.Id);
+			var trainer = _context.Trainers
+				.Include(t => t.TrainerServices)
+				.FirstOrDefault(t => t.Id == model.Trainer.Id);
+
 			if (trainer == null)
 				return NotFound();
 
-			trainer.Name = model.Name;
-			trainer.Specialization = model.Specialization;
+			// Update nama trainer
+			trainer.Name = model.Trainer.Name;
+
+			// Hapus relasi many-to-many lama
+			_context.TrainerServices.RemoveRange(trainer.TrainerServices);
+
+			// Tambahkan relasi baru
+			foreach (var serviceId in model.SelectedServiceIds)
+			{
+				_context.TrainerServices.Add(new TrainerService
+				{
+					TrainerId = trainer.Id,
+					ServiceId = serviceId
+				});
+			}
 
 			_context.SaveChanges();
 
@@ -182,22 +246,91 @@ namespace WebProgramlamaFinalProject.Controllers
 		// ================== Trainers ==================//
 
 
+		/*----------------------------------------------------------------------*/
 
 
-
-		// ================== Schedules ==================
-		//public IActionResult TrainerSchedule(int trainerId) { ... }
-		//public IActionResult SaveTrainerSchedule(...) { ... }
-
-		// ================== Services ==================
+		// ================== Services ==================//
+		// ================== Services ==================//
+		// ================== Services ==================//
 		public IActionResult ManageServices()
+		{
+			var services = _context.Services.ToList();
+			return View(services);
+		}
+
+
+		// GET
+		[HttpGet]
+		public IActionResult CreateService()
 		{
 			return View();
 		}
 
-		//public IActionResult CreateService() { ... }
-		//public IActionResult EditService(int id) { ... }
-		//public IActionResult DeleteService(int id) { ... }
+		// POST
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult CreateService(Service model)
+		{
+			if (!ModelState.IsValid)
+			{
+				return View(model);
+			}
+
+			_context.Services.Add(model);
+			_context.SaveChanges();
+
+			return RedirectToAction("ManageServices");
+		}
+
+
+		// GET: /Admin/EditService
+		[HttpGet]
+		public IActionResult EditService(int id)
+		{
+			var service = _context.Services.FirstOrDefault(s => s.Id == id);
+			if (service == null)
+				return NotFound();
+
+			return View(service);
+		}
+
+
+		// POST: /Admin/EditService
+		[HttpPost]
+		public IActionResult EditService(Service model)
+		{
+			if (!ModelState.IsValid)
+				return View(model);
+
+			var service = _context.Services.FirstOrDefault(s => s.Id == model.Id);
+			if (service == null)
+				return NotFound();
+
+			service.Name = model.Name;
+			service.DurationInMinutes = model.DurationInMinutes;
+			service.Price = model.Price;
+
+			_context.SaveChanges();
+
+			return RedirectToAction("ManageServices");
+		}
+
+
+		public IActionResult DeleteService(int id)
+		{
+			var service = _context.Services.Find(id);
+			if (service == null) return NotFound();
+
+			_context.Services.Remove(service);
+			_context.SaveChanges();
+
+			return RedirectToAction("ManageServices");
+		}
+
+
+		// ================== Services ==================//
+		// ================== Services ==================//
+		// ================== Services ==================//
 
 
 

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebProgramlamaFinalProject.Data;
 
@@ -11,9 +12,11 @@ using WebProgramlamaFinalProject.Data;
 namespace WebProgramlamaFinalProject.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251209235922_AddServiceTable")]
+    partial class AddServiceTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -294,6 +297,10 @@ namespace WebProgramlamaFinalProject.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Specialization")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Trainers");
@@ -324,21 +331,6 @@ namespace WebProgramlamaFinalProject.Data.Migrations
                     b.HasIndex("TrainerId");
 
                     b.ToTable("TrainerSchedules");
-                });
-
-            modelBuilder.Entity("WebProgramlamaFinalProject.Models.TrainerService", b =>
-                {
-                    b.Property<int>("TrainerId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ServiceId")
-                        .HasColumnType("int");
-
-                    b.HasKey("TrainerId", "ServiceId");
-
-                    b.HasIndex("ServiceId");
-
-                    b.ToTable("TrainerServices");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -430,35 +422,9 @@ namespace WebProgramlamaFinalProject.Data.Migrations
                     b.Navigation("Trainer");
                 });
 
-            modelBuilder.Entity("WebProgramlamaFinalProject.Models.TrainerService", b =>
-                {
-                    b.HasOne("WebProgramlamaFinalProject.Models.Service", "Service")
-                        .WithMany("TrainerServices")
-                        .HasForeignKey("ServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebProgramlamaFinalProject.Models.Trainer", "Trainer")
-                        .WithMany("TrainerServices")
-                        .HasForeignKey("TrainerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Service");
-
-                    b.Navigation("Trainer");
-                });
-
-            modelBuilder.Entity("WebProgramlamaFinalProject.Models.Service", b =>
-                {
-                    b.Navigation("TrainerServices");
-                });
-
             modelBuilder.Entity("WebProgramlamaFinalProject.Models.Trainer", b =>
                 {
                     b.Navigation("Schedules");
-
-                    b.Navigation("TrainerServices");
                 });
 #pragma warning restore 612, 618
         }

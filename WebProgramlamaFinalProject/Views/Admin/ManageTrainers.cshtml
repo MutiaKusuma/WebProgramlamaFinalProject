@@ -8,7 +8,7 @@
     <thead>
         <tr>
             <th>Name</th>
-            <th>Specialization</th>
+            <th>Services</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -17,10 +17,23 @@
         {
             <tr>
                 <td>@t.Name</td>
-                <td>@t.Specialization</td>
+
+                <td>
+                    @if (t.TrainerServices != null && t.TrainerServices.Any())
+                    {
+                        @string.Join(", ", t.TrainerServices.Select(ts => ts.Service.Name))
+                    }
+                    else
+                    {
+                        <span class="text-muted">No Services Assigned</span>
+                    }
+                </td>
+
+
                 <td>
                     <a href="/Admin/EditTrainer/@t.Id" class="btn btn-warning btn-sm">Edit</a>
-                    <a href="/Admin/DeleteTrainer/@t.Id" class="btn btn-danger btn-sm">Delete</a>
+                    <a href="/Admin/DeleteTrainer/@t.Id" class="btn btn-danger btn-sm"
+                       onclick="return confirm('Are you sure?')">Delete</a>
                     <a href="/Admin/SetSchedule/@t.Id" class="btn btn-info btn-sm">Schedule</a>
                 </td>
             </tr>

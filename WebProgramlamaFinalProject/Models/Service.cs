@@ -14,5 +14,8 @@ namespace WebProgramlamaFinalProject.Models
 
 		[Required]
 		public decimal Price { get; set; }
+
+		public List<TrainerService> TrainerServices { get; set; } = new();
+
 	}
 }
