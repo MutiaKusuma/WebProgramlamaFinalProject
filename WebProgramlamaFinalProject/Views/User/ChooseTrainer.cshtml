@@ -1,0 +1,21 @@
+﻿@model List<WebProgramlamaFinalProject.Models.Trainer>
+
+<h2>Choose Your Trainer</h2>
+
+<p>Selected Service: <strong>@ViewBag.Service.Name</strong></p>
+
+<form method="post">
+    <input type="hidden" name="serviceId" value="@ViewBag.Service.Id" />
+
+    <div class="list-group">
+        @foreach (var t in Model)
+        {
+            <label class="list-group-item">
+                <input type="radio" name="trainerId" value="@t.Id" />
+                @t.Name
+            </label>
+        }
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Next</button>
+</form>

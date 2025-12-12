@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "User Dashboard";
+}
+
+<h2>Welcome, @ViewBag.UserName!</h2>
+
+<div class="mt-4">
+    <a asp-controller="User" asp-action="MyAppointments" class="btn btn-primary btn-lg m-2">
+        My Appointments
+    </a>
+    <a asp-controller="User" asp-action="ChooseService" class="btn btn-success btn-lg m-2">
+        Make Appointment
+    </a>
+    <a asp-controller="User" asp-action="AI" class="btn btn-warning btn-lg m-2">
+        AI Feature
+    </a>
+</div>

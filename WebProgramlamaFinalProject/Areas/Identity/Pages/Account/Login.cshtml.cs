@@ -142,7 +142,7 @@ namespace WebProgramlamaFinalProject.Areas.Identity.Pages.Account
 					}
 					else
 					{
-						return RedirectToAction("Index", "User");
+						return RedirectToAction("Dashboard", "User");
 					}
 				}
 
