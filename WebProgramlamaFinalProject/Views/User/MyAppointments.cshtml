@@ -1,0 +1,46 @@
+﻿@model List<WebProgramlamaFinalProject.Models.Appointment>
+
+<h2>My Appointments</h2>
+
+<p>
+    Here are your appointments, <strong>@ViewBag.UserName</strong>
+</p>
+
+<hr />
+
+@if (!Model.Any())
+{
+    <p>You don’t have any appointments yet.</p>
+}
+else
+{
+    <table border="1" cellpadding="8">
+        <thead>
+            <tr>
+                <th>Trainer</th>
+                <th>Service</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var a in Model)
+            {
+                <tr>
+                    <td>@a.Trainer.Name</td>
+                    <td>@a.Service.Name</td>
+                    <td>@a.StartTime.ToString("dd MMM yyyy")</td>
+                    <td>
+                        @a.StartTime.ToString("HH:mm")
+                        -
+                        @a.EndTime.ToString("HH:mm")
+                    </td>
+                    <td>
+                        @a.Status
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

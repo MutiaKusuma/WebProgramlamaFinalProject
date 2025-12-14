@@ -1,0 +1,20 @@
+﻿@model ReviewAppointmentViewModel
+
+<h2>Review Appointment</h2>
+<hr />
+
+<p><strong>Trainer:</strong> @Model.TrainerName</p>
+<p><strong>Service:</strong> @Model.ServiceName</p>
+<p><strong>Date:</strong> @Model.StartTime.ToString("dd MMM yyyy")</p>
+<p><strong>Time:</strong> @Model.StartTime.ToString("HH:mm") - @Model.EndTime.ToString("HH:mm")</p>
+
+<form asp-action="SubmitAppointment" method="post">
+
+    <!-- HIDDEN INPUT WAJIB -->
+    <input type="hidden" asp-for="TrainerId" />
+    <input type="hidden" asp-for="ServiceId" />
+    <input type="hidden" asp-for="StartTime" />
+    <input type="hidden" asp-for="EndTime" />
+
+    <button type="submit">Submit Appointment</button>
+</form>

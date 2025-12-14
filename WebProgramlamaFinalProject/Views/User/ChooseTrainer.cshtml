@@ -11,7 +11,7 @@
         @foreach (var t in Model)
         {
             <label class="list-group-item">
-                <input type="radio" name="trainerId" value="@t.Id" />
+                <input type="radio" name="trainerId" value="@t.Id" required />
                 @t.Name
             </label>
         }

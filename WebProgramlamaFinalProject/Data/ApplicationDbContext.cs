@@ -17,6 +17,8 @@ namespace WebProgramlamaFinalProject.Data
 		public DbSet<Appointment> Appointments { get; set; }
 		public DbSet<TrainerService> TrainerServices { get; set; }
 
+
+
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);

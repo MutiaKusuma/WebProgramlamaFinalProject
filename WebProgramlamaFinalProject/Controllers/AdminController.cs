@@ -29,24 +29,49 @@ namespace WebProgramlamaFinalProject.Controllers
 		}
 
 
-		// ================= Appointments ==================
+		// ================= Appointments ==================//
+		// ================= Appointments ==================//
+		// ================= Appointments ==================//
+
+		[HttpGet]
 		public IActionResult ManageAppointments()
 		{
-			return View();
+			var appointments = _context.Appointments
+				.Include(a => a.User)
+				.Include(a => a.Trainer)
+				.Include(a => a.Service)
+				.OrderBy(a => a.StartTime)
+				.ToList();
+
+			return View(appointments);
 		}
 
 
-
-
-
-		// ================== Trainers ==================//
-		// ================== Trainers ==================//
-		// ================== Trainers ==================//
-		/*public IActionResult ManageTrainers()
+		[HttpPost]
+		public IActionResult UpdateAppointmentStatus(int id, string status)
 		{
-			var trainers = _context.Trainers.ToList();
-			return View(trainers);
-		}*/
+			var appointment = _context.Appointments.FirstOrDefault(a => a.Id == id);
+
+			if (appointment == null)
+				return NotFound();
+
+			appointment.Status = status;
+			_context.SaveChanges();
+
+			return RedirectToAction("ManageAppointments");
+		}
+
+		// ================= Appointments ==================//
+		// ================= Appointments ==================//
+		// ================= Appointments ==================//
+
+
+		/*----------------------------------------------------------------------*/
+
+
+		// ================== Trainers ==================//
+		// ================== Trainers ==================//
+		// ================== Trainers ==================//
 
 
 		public IActionResult ManageTrainers()

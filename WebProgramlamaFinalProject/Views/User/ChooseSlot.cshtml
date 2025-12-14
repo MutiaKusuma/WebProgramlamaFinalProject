@@ -1,0 +1,60 @@
+﻿@model WebProgramlamaFinalProject.Models.ViewModels.ChooseSlotViewModel
+
+@{
+    ViewData["Title"] = "Choose Slot";
+}
+
+<h2>Choose Time Slot</h2>
+<p><i>Available schedule for the next 2 weeks</i></p>
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div style="color:red">
+        @Model.ErrorMessage
+    </div>
+}
+
+<form asp-action="ChooseSlot" method="post">
+
+    <!-- hidden fields -->
+    <input type="hidden" asp-for="TrainerId" />
+    <input type="hidden" asp-for="ServiceId" />
+    <input type="hidden" asp-for="ServiceDuration" />
+
+    @if (Model.DateGroups != null && Model.DateGroups.Any())
+    {
+        foreach (var group in Model.DateGroups)
+        {
+            <hr />
+
+            <p>
+                <strong>
+                    @group.DayName,
+                    @group.Date.ToString("dd MMM yyyy")
+                </strong>
+            </p>
+
+            @foreach (var slot in group.Slots)
+            {
+                <div>
+                    <label>
+                        <input type="radio"
+                               asp-for="SelectedSlot"
+                               value="@slot.StartTime" />
+
+                        @slot.StartTime.ToString("HH:mm")
+                        -
+                        @slot.EndTime.ToString("HH:mm")
+                    </label>
+                </div>
+            }
+        }
+    }
+    else
+    {
+        <p>No available slots.</p>
+    }
+
+    <br />
+    <button type="submit">Next</button>
+</form>
