@@ -136,15 +136,10 @@ namespace WebProgramlamaFinalProject.Controllers
 				date = date.AddDays(1);
 			}
 
-			return RedirectToAction("ChooseSlot", new
-			{
-				serviceId,
-				trainerId,
-				date
-			});
+			return RedirectToAction("ChooseSlot", new { serviceId, trainerId });
+
+
 		}
-
-
 
 		// STEP 3 - Choose Date
 		[HttpGet]
@@ -276,6 +271,7 @@ namespace WebProgramlamaFinalProject.Controllers
 
 			return View("ChooseSlot", model);
 		}
+
 
 
 		[HttpGet]

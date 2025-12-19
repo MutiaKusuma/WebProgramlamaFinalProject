@@ -36,9 +36,12 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 
 builder.Services.AddSingleton<IEmailSender, WebProgramlamaFinalProject.Services.NoOpEmailSender>();
 
+builder.Services.AddControllers()
+	.AddJsonOptions(options =>
+	{
+		options.JsonSerializerOptions.WriteIndented = true;
+	});
 
-
-builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();  //baru ditambahin (04/12/25)
 
 builder.Services.AddScoped<OpenAiService>();
@@ -103,5 +106,6 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapRazorPages();
+app.MapControllers();  // <- wajib untuk API Controller
 
 app.Run();

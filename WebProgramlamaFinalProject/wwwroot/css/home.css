@@ -1,0 +1,91 @@
+﻿
+\/* ===== Reset dasar ===== */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+    color: #333;
+}
+
+/* ===== Container utama ===== */
+.text-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+    padding: 20px;
+}
+
+/* ===== Judul ===== */
+h1.display-4 {
+    font-size: 3rem;
+    color: #0d6efd; /* bootstrap primary blue */
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+/* ===== Paragraf ===== */
+p.lead {
+    font-size: 1.3rem;
+    color: #555;
+    max-width: 600px;
+}
+
+/* ===== Tombol utama ===== */
+.btn-lg {
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+/* Tombol login */
+.btn-primary {
+    background: linear-gradient(45deg, #0d6efd, #6610f2);
+    border: none;
+    color: #fff;
+}
+
+    .btn-primary:hover {
+        background: linear-gradient(45deg, #6610f2, #0d6efd);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+/* Tombol register */
+.btn-outline-primary {
+    border: 2px solid #0d6efd;
+    color: #0d6efd;
+}
+
+    .btn-outline-primary:hover {
+        background-color: #0d6efd;
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    }
+
+/* ===== Spasi tombol ===== */
+.btn-lg.mx-2 {
+    margin: 10px 10px;
+}
+
+/* ===== Responsif ===== */
+@media (max-width: 768px) {
+    h1.display-4 {
+        font-size: 2.2rem;
+    }
+
+    p.lead {
+        font-size: 1.1rem;
+    }
+
+    .btn-lg {
+        width: 80%;
+        margin-bottom: 10px;
+    }
+}
