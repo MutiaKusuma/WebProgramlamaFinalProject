@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-<<<<<<< HEAD
 using System.Configuration;
 using System.Text.Json;
 using WebProgramlamaFinalProject.Data;
@@ -12,25 +11,16 @@ using WebProgramlamaFinalProject.Services;
 using System.Text.Json;
 
 
-=======
-using WebProgramlamaFinalProject.Data;
-using WebProgramlamaFinalProject.Models;
-using WebProgramlamaFinalProject.Models.ViewModels;
->>>>>>> 61cabe8065161e591ffebe4ae42e2c5ded2e219a
 
 
 namespace WebProgramlamaFinalProject.Controllers
 {
 	[Authorize(Roles = "User")]
-<<<<<<< HEAD
 
-=======
->>>>>>> 61cabe8065161e591ffebe4ae42e2c5ded2e219a
 	public class UserController : Controller
 	{
 		private readonly ApplicationDbContext _context;
 		private readonly UserManager<IdentityUser> _userManager;
-<<<<<<< HEAD
 		private readonly IConfiguration _configuration;
 
 
@@ -46,16 +36,6 @@ namespace WebProgramlamaFinalProject.Controllers
 
 
 
-=======
-
-		public UserController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
-		{
-			_context = context;
-			_userManager = userManager;
-		}
-
-
->>>>>>> 61cabe8065161e591ffebe4ae42e2c5ded2e219a
 		public async Task<IActionResult> Dashboard()
 		{
 			var user = await _userManager.GetUserAsync(User);
@@ -84,11 +64,7 @@ namespace WebProgramlamaFinalProject.Controllers
 				.OrderByDescending(a => a.StartTime)
 				.ToList();
 
-<<<<<<< HEAD
-			ViewBag.UserName = user.Email; 
-=======
 			ViewBag.UserName = user.Email; // atau user.UserName
->>>>>>> 61cabe8065161e591ffebe4ae42e2c5ded2e219a
 
 			return View(appointments);
 		}
@@ -154,11 +130,7 @@ namespace WebProgramlamaFinalProject.Controllers
 
 			DateTime date = DateTime.Today;
 
-<<<<<<< HEAD
-			
-=======
 			// ⬇️ lompat hari sampai ketemu schedule
->>>>>>> 61cabe8065161e591ffebe4ae42e2c5ded2e219a
 			while (!schedules.Any(s => s.DayOfWeek == date.DayOfWeek))
 			{
 				date = date.AddDays(1);
@@ -373,7 +345,6 @@ namespace WebProgramlamaFinalProject.Controllers
 		// ================= Make Appointments ==================//
 
 
-<<<<<<< HEAD
 		//--------------------------------------------------------------------------------------//	
 
 
@@ -432,6 +403,8 @@ namespace WebProgramlamaFinalProject.Controllers
 			var response = await client.PostAsJsonAsync(
 				"https://api.openai.com/v1/chat/completions", body);
 
+			//var json = await response.Content.ReadFromJsonAsync<dynamic>();
+			//string aiText = json.choices[0].message.content;
 
 			var jsonString = await response.Content.ReadAsStringAsync();
 			var jsonDoc = JsonDocument.Parse(jsonString);
@@ -444,7 +417,7 @@ namespace WebProgramlamaFinalProject.Controllers
 					.GetString();
 
 
-			
+			// 3️⃣ KIRIM KE RESULT VIEW
 			var result = new AiFitnessResultViewModel
 			{
 				BMI = Math.Round(bmi, 2),
@@ -463,9 +436,6 @@ namespace WebProgramlamaFinalProject.Controllers
 		// ================= Ai Feature ==================//
 		// ================= Ai Feature ==================//
 		// ================= Ai Feature ==================//
-=======
-
->>>>>>> 61cabe8065161e591ffebe4ae42e2c5ded2e219a
 	}
 
 
