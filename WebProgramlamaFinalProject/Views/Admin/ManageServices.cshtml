@@ -1,0 +1,32 @@
+﻿@model List<WebProgramlamaFinalProject.Models.Service>
+
+<h2>Manage Services</h2>
+
+<a class="btn btn-primary" href="/Admin/CreateService">Add Service</a>
+
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Duration</th>
+            <th>Price</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var s in Model)
+        {
+            <tr>
+                <td>@s.Name</td>
+                <td>@s.DurationInMinutes minutes</td>
+                <td>@s.Price TL</td>
+                <td>
+                    <a href="/Admin/EditService/@s.Id" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="/Admin/DeleteService/@s.Id" class="btn btn-danger btn-sm"
+                       onclick="return confirm('Are you sure?')">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

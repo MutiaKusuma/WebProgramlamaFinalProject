@@ -1,0 +1,26 @@
+﻿@model AiFitnessResultViewModel
+
+<h2>AI Fitness Result</h2>
+
+<p><strong>BMI:</strong> @Model.BMI</p>
+<p><strong>Category:</strong> @Model.Category</p>
+<p><strong>Daily Calories:</strong> @Model.DailyCalories kcal</p>
+
+<hr />
+
+<h3>Diet Recommendation</h3>
+
+<pre style="
+    white-space: pre-wrap;
+    font-family: inherit;
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+">
+@Model.DietRecommendation
+</pre>
+
+<br />
+
+<a asp-action="Dashboard" class="btn btn-primary">Back to Home</a>
+

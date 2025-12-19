@@ -1,0 +1,33 @@
+﻿@model WebProgramlamaFinalProject.Models.ViewModels.TrainerFormViewModel
+
+<h2>Edit Trainer</h2>
+
+<div asp-validation-summary="All" class="text-danger"></div>
+
+<form asp-action="EditTrainer" asp-controller="Admin" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Trainer.Id" />
+
+    <div class="form-group">
+        <label asp-for="Trainer.Name"></label>
+        <input asp-for="Trainer.Name" class="form-control" />
+        <span asp-validation-for="Trainer.Name" class="text-danger"></span>
+    </div>
+
+    <h4 class="mt-3">Select Services</h4>
+    <div class="form-group">
+        @foreach (var s in Model.Services)
+        {
+            <div>
+                <input type="checkbox"
+                       name="SelectedServiceIds"
+                       value="@s.Id"
+                       @(Model.SelectedServiceIds.Contains(s.Id) ? "checked" : "") />
+                <label>@s.Name</label>
+            </div>
+        }
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+    <a asp-action="ManageTrainers" class="btn btn-secondary mt-3">Cancel</a>
+</form>

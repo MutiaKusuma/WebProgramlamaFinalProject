@@ -1,0 +1,13 @@
+﻿@model AiFitnessInputViewModel
+
+<h2>AI Fitness & Diet Recommendation</h2>
+
+<form asp-action="AiFeature" method="post">
+    <label>Height (cm)</label><br />
+    <input asp-for="HeightCm" /><br /><br />
+
+    <label>Weight (kg)</label><br />
+    <input asp-for="WeightKg" /><br /><br />
+
+    <button type="submit">Analyze with AI</button>
+</form>
