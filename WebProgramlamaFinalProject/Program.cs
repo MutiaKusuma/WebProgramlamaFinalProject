@@ -2,8 +2,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using WebProgramlamaFinalProject.Data;
+<<<<<<< HEAD
 using WebProgramlamaFinalProject.Services;
 
+=======
+>>>>>>> 61cabe8065161e591ffebe4ae42e2c5ded2e219a
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,16 +37,23 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
 
+<<<<<<< HEAD
 //builder.Services.AddSingleton<IEmailSender, NoOpEmailSender>(); //for register part (06.12.2025)
 builder.Services.AddSingleton<IEmailSender, WebProgramlamaFinalProject.Services.NoOpEmailSender>();
+=======
+builder.Services.AddSingleton<IEmailSender, NoOpEmailSender>(); //for register part (06.12.2025)
+>>>>>>> 61cabe8065161e591ffebe4ae42e2c5ded2e219a
 
 
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();  //baru ditambahin (04/12/25)
 
+<<<<<<< HEAD
 builder.Services.AddScoped<OpenAiService>();
 
+=======
+>>>>>>> 61cabe8065161e591ffebe4ae42e2c5ded2e219a
 
 var app = builder.Build();
 
