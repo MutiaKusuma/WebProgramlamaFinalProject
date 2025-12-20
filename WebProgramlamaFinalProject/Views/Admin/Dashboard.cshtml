@@ -4,22 +4,54 @@
 
 <div class="container mt-5">
 
-    <h2 class="text-center mb-4">Welcome Admin, choose what you want to do</h2>
+    <h2 class="text-center mb-5 fw-bold">Welcome Admin</h2>
+    <p class="text-center mb-4">Choose what you want to manage:</p>
 
-    <div class="d-flex flex-column align-items-center gap-3">
+    <div class="row justify-content-center g-4">
 
-        <a href="/Admin/ManageAppointments" class="btn btn-primary btn-lg" style="width:250px;">
-            Manage Appointments
-        </a>
+        <div class="col-md-4">
+            <a href="/Admin/ManageAppointments" class="text-decoration-none">
+                <div class="card text-center shadow h-100 hover-scale">
+                    <div class="card-body">
+                        <h5 class="card-title">Manage Appointments</h5>
+                        <p class="card-text"><i class="bi bi-calendar-check" style="font-size:2rem;"></i></p>
+                    </div>
+                </div>
+            </a>
+        </div>
 
-        <a href="/Admin/ManageTrainers" class="btn btn-success btn-lg" style="width:250px;">
-            Manage Trainers
-        </a>
+        <div class="col-md-4">
+            <a href="/Admin/ManageTrainers" class="text-decoration-none">
+                <div class="card text-center shadow h-100 hover-scale">
+                    <div class="card-body">
+                        <h5 class="card-title">Manage Trainers</h5>
+                        <p class="card-text"><i class="bi bi-person-badge" style="font-size:2rem;"></i></p>
+                    </div>
+                </div>
+            </a>
+        </div>
 
-        <a href="/Admin/ManageServices" class="btn btn-warning btn-lg" style="width:250px;">
-            Manage Services
-        </a>
+        <div class="col-md-4">
+            <a href="/Admin/ManageServices" class="text-decoration-none">
+                <div class="card text-center shadow h-100 hover-scale">
+                    <div class="card-body">
+                        <h5 class="card-title">Manage Services</h5>
+                        <p class="card-text"><i class="bi bi-gear" style="font-size:2rem;"></i></p>
+                    </div>
+                </div>
+            </a>
+        </div>
 
     </div>
-
 </div>
+
+<style>
+    .hover-scale {
+        transition: transform 0.3s;
+        cursor: pointer;
+    }
+
+        .hover-scale:hover {
+            transform: scale(1.05);
+        }
+</style>

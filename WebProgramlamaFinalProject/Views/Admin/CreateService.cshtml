@@ -1,27 +1,31 @@
 ﻿@model WebProgramlamaFinalProject.Models.Service
 
-<h2>Create Service</h2>
+<h2 class="mb-4">Create Service</h2>
 
-<form asp-controller="Admin" asp-action="CreateService" method="post">
+<form asp-controller="Admin" asp-action="CreateService" method="post" class="needs-validation" novalidate>
     @Html.AntiForgeryToken()
 
-    <div class="form-group">
-        <label asp-for="Name"></label>
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label"></label>
         <input asp-for="Name" class="form-control" />
         <span asp-validation-for="Name" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
-        <label asp-for="DurationInMinutes"></label>
+    <div class="mb-3">
+        <label asp-for="DurationInMinutes" class="form-label"></label>
         <input asp-for="DurationInMinutes" class="form-control" />
         <span asp-validation-for="DurationInMinutes" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
-        <label asp-for="Price"></label>
+    <div class="mb-3">
+        <label asp-for="Price" class="form-label">Price (TL)</label>
         <input asp-for="Price" class="form-control" />
         <span asp-validation-for="Price" class="text-danger"></span>
     </div>
 
-    <button type="submit" class="btn btn-primary mt-3">Create</button>
+    <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary">Create</button>
+        <a href="/Admin/ManageServices" class="btn btn-secondary">← Back to Services</a>
+    </div>
 </form>
+

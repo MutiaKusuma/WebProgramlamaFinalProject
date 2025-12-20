@@ -2,16 +2,55 @@
     ViewData["Title"] = "User Dashboard";
 }
 
-<h2>Welcome, @ViewBag.UserName!</h2>
+<div class="container mt-5">
+    <h2 class="text-center mb-4 fw-bold">Welcome, @ViewBag.UserName!</h2>
+    <p class="text-center mb-5">Choose an action to continue:</p>
 
-<div class="mt-4">
-    <a asp-controller="User" asp-action="MyAppointments" class="btn btn-primary btn-lg m-2">
-        My Appointments
-    </a>
-    <a asp-controller="User" asp-action="ChooseService" class="btn btn-success btn-lg m-2">
-        Make Appointment
-    </a>
-    <a asp-controller="User" asp-action="AiFeature" class="btn btn-warning btn-lg m-2">
-        AI Feature
-    </a>
+    <div class="row justify-content-center g-4">
+
+        <div class="col-md-4">
+            <a asp-controller="User" asp-action="MyAppointments" class="text-decoration-none">
+                <div class="card text-center shadow h-100 hover-scale">
+                    <div class="card-body">
+                        <h5 class="card-title">My Appointments</h5>
+                        <p class="card-text"><i class="bi bi-calendar-check" style="font-size:2rem;"></i></p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a asp-controller="User" asp-action="ChooseService" class="text-decoration-none">
+                <div class="card text-center shadow h-100 hover-scale">
+                    <div class="card-body">
+                        <h5 class="card-title">Make Appointment</h5>
+                        <p class="card-text"><i class="bi bi-plus-circle" style="font-size:2rem;"></i></p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a asp-controller="User" asp-action="AiFeature" class="text-decoration-none">
+                <div class="card text-center shadow h-100 hover-scale">
+                    <div class="card-body">
+                        <h5 class="card-title">AI Feature</h5>
+                        <p class="card-text"><i class="bi bi-robot" style="font-size:2rem;"></i></p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+    </div>
 </div>
+
+<style>
+    .hover-scale {
+        transition: transform 0.3s;
+        cursor: pointer;
+    }
+
+        .hover-scale:hover {
+            transform: scale(1.05);
+        }
+</style>

@@ -1,50 +1,94 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - WebProgramlamaFinalProject</title>
+    <title>@ViewData["Title"] - SmartFit GYM</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/WebProgramlamaFinalProject.styles.css" asp-append-version="true" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WebProgramlamaFinalProject</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                <!-- Brand -->
+                <a class="navbar-brand fw-bold fs-4" asp-area="" asp-controller="Home" asp-action="Index">
+                    SmartFit GYM
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain"
+                        aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+
+                <div class="collapse navbar-collapse" id="navbarMain">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <!-- Home link -->
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                var isAdmin = User.IsInRole("Admin");
+                                if (isAdmin)
+                                {
+                                    <a class="nav-link text-dark" asp-controller="Admin" asp-action="Dashboard">Home</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link text-dark" asp-controller="User" asp-action="Dashboard">Home</a>
+                                }
+                            }
+                            else
+                            {
+                                <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
+                            }
                         </li>
+
+                        <!-- Admin Panel link -->
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                var isAdmin = User.IsInRole("Admin");
+                                if (isAdmin)
+                                {
+                                    <a class="nav-link text-dark" asp-controller="Admin" asp-action="Dashboard">Admin Panel</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link text-dark" href="javascript:void(0);" onclick="alert('Only Admin Can Access This Page')">Admin Panel</a>
+                                }
+                            }
+                            else
+                            {
+                                <a class="nav-link text-dark" href="#">Admin Panel</a>
+                            }
                         </li>
                     </ul>
-                    <partial name="_LoginPartial" />
+
+                    <!-- Login / Logout Partial -->
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <partial name="_LoginPartial" />
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
-
-    @section Scripts {
-        <partial name="_ValidationScriptsPartial" />
-    }
-
-
 </body>
 </html>

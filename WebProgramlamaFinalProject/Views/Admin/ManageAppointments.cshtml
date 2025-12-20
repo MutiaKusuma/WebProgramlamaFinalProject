@@ -1,65 +1,62 @@
 ﻿@model List<WebProgramlamaFinalProject.Models.Appointment>
 
-<h2>Manage Appointments</h2>
-
+<h2 class="mb-3">Manage Appointments</h2>
 <hr />
 
 @if (!Model.Any())
 {
-    <p>No appointments found.</p>
+    <p class="text-muted">No appointments found.</p>
 }
 else
 {
-    <table border="1" cellpadding="8">
-        <thead>
-            <tr>
-                <th>User</th>
-                <th>Service</th>
-                <th>Trainer</th>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Status</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var a in Model)
-            {
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered align-middle">
+            <thead class="table-dark">
                 <tr>
-                    <td>@a.User.Email</td>
-                    <td>@a.Service.Name</td>
-                    <td>@a.Trainer.Name</td>
-                    <td>@a.StartTime.ToString("dd MMM yyyy")</td>
-                    <td>
-                        @a.StartTime.ToString("HH:mm")
-                        -
-                        @a.EndTime.ToString("HH:mm")
-                    </td>
-                    <td>
-                        <strong>@a.Status</strong>
-                    </td>
-                    <td>
-                        @if (a.Status == "Pending")
-                        {
-                            <form asp-action="UpdateAppointmentStatus" method="post" style="display:inline">
-                                <input type="hidden" name="id" value="@a.Id" />
-                                <input type="hidden" name="status" value="Approved" />
-                                <button type="submit">Approve</button>
-                            </form>
-
-                            <form asp-action="UpdateAppointmentStatus" method="post" style="display:inline">
-                                <input type="hidden" name="id" value="@a.Id" />
-                                <input type="hidden" name="status" value="Rejected" />
-                                <button type="submit">Reject</button>
-                            </form>
-                        }
-                        else
-                        {
-                            <em>No action</em>
-                        }
-                    </td>
+                    <th>User</th>
+                    <th>Service</th>
+                    <th>Trainer</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                    <th>Action</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var a in Model)
+                {
+                    <tr>
+                        <td>@a.User.Email</td>
+                        <td>@a.Service.Name</td>
+                        <td>@a.Trainer.Name</td>
+                        <td>@a.StartTime.ToString("dd MMM yyyy")</td>
+                        <td>@a.StartTime.ToString("HH:mm") - @a.EndTime.ToString("HH:mm")</td>
+                        <td>
+                            <span class="fw-bold">@a.Status</span>
+                        </td>
+                        <td>
+                            @if (a.Status == "Pending")
+                            {
+                                <form asp-action="UpdateAppointmentStatus" method="post" style="display:inline">
+                                    <input type="hidden" name="id" value="@a.Id" />
+                                    <input type="hidden" name="status" value="Approved" />
+                                    <button type="submit" class="btn btn-success btn-sm me-1">Approve</button>
+                                </form>
+
+                                <form asp-action="UpdateAppointmentStatus" method="post" style="display:inline">
+                                    <input type="hidden" name="id" value="@a.Id" />
+                                    <input type="hidden" name="status" value="Rejected" />
+                                    <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <span class="text-muted"><em>No action</em></span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 }

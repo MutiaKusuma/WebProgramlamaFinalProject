@@ -3,28 +3,32 @@
     ViewBag.Title = "Set Schedule";
 }
 
-<h2>Set Schedule for @ViewBag.TrainerName</h2>
+<h2 class="mb-4">Set Schedule for @ViewBag.TrainerName</h2>
 
 <!-- Form untuk tambah jadwal -->
-<form asp-action="SetSchedule" method="post">
+<form asp-action="SetSchedule" method="post" class="needs-validation" novalidate>
     <input type="hidden" name="trainerId" value="@ViewBag.TrainerId" />
-    <div class="form-group">
-        <label>Day of Week</label>
-        <select name="dayOfWeek" class="form-control">
+
+    <div class="mb-3">
+        <label class="form-label">Day of Week</label>
+        <select name="dayOfWeek" class="form-select">
             @foreach (var day in Enum.GetValues(typeof(DayOfWeek)))
             {
                 <option value="@day">@day</option>
             }
         </select>
     </div>
-    <div class="form-group">
-        <label>Start Time</label>
+
+    <div class="mb-3">
+        <label class="form-label">Start Time</label>
         <input type="time" name="startTime" class="form-control" required />
     </div>
-    <div class="form-group">
-        <label>End Time</label>
+
+    <div class="mb-3">
+        <label class="form-label">End Time</label>
         <input type="time" name="endTime" class="form-control" required />
     </div>
+
     <button type="submit" class="btn btn-primary mt-2">Add Schedule</button>
 </form>
 
@@ -34,14 +38,14 @@
     ← Back to Trainers
 </a>
 
-
-<h3>Existing Schedules</h3>
-<table class="table table-bordered">
-    <thead>
+<h3 class="mt-4">Existing Schedules</h3>
+<table class="table table-bordered table-striped mt-2">
+    <thead class="table-light">
         <tr>
             <th>Day</th>
             <th>Start Time</th>
             <th>End Time</th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
@@ -53,7 +57,8 @@
                 <td>@s.EndTime</td>
                 <td>
                     <a href="/Admin/DeleteSchedule?id=@s.Id&trainerId=@ViewBag.TrainerId"
-                       class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">
+                       class="btn btn-danger btn-sm"
+                       onclick="return confirm('Are you sure?')">
                         Delete
                     </a>
                 </td>
