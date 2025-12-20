@@ -68,7 +68,7 @@
                             }
                         </li>
 
-                        <!-- Database dropdown menu (hanya untuk Admin) -->
+                        <!-- Database dropdown menu (Admin) -->
                         @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                         {
                             <li class="nav-item dropdown">
@@ -116,12 +116,12 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     <script>
-        // JavaScript murni untuk alert admin
+       
         document.getElementById('alertAdmin')?.addEventListener('click', function () {
             alert('Only Admin Can Access This Page');
         });
 
-        // jQuery untuk highlight menu aktif
+      
         $(document).ready(function() {
             var currentUrl = window.location.pathname.toLowerCase();
             $('.navbar-nav .nav-link').each(function() {
@@ -131,7 +131,7 @@
                 }
             });
 
-            // Hover effect untuk semua nav links
+      
             $('.navbar-nav .nav-link').hover(
                 function() { $(this).addClass('text-info'); },
                 function() { $(this).removeClass('text-info'); }

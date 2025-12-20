@@ -64,7 +64,7 @@ namespace WebProgramlamaFinalProject.Controllers
 				.OrderByDescending(a => a.StartTime)
 				.ToList();
 
-			ViewBag.UserName = user.Email; // atau user.UserName
+			ViewBag.UserName = user.Email; 
 
 			return View(appointments);
 		}
@@ -81,7 +81,6 @@ namespace WebProgramlamaFinalProject.Controllers
 		// ================= Make Appointment ==================//
 
 
-		// STEP 1 - Choose Service
 		[HttpGet]
 		public IActionResult ChooseService()
 		{
@@ -130,7 +129,7 @@ namespace WebProgramlamaFinalProject.Controllers
 
 			DateTime date = DateTime.Today;
 
-			// ⬇️ lompat hari sampai ketemu schedule
+		
 			while (!schedules.Any(s => s.DayOfWeek == date.DayOfWeek))
 			{
 				date = date.AddDays(1);
@@ -141,7 +140,7 @@ namespace WebProgramlamaFinalProject.Controllers
 
 		}
 
-		// STEP 3 - Choose Date
+	
 		[HttpGet]
 		public IActionResult ChooseSlot(int trainerId, int serviceId)
 		{
@@ -160,7 +159,7 @@ namespace WebProgramlamaFinalProject.Controllers
 
 			DateTime startDate = DateTime.Today;
 
-			for (int i = 0; i < 14; i++) // 2 minggu
+			for (int i = 0; i < 14; i++) 
 			{
 				DateTime date = startDate.AddDays(i);
 
@@ -285,7 +284,7 @@ namespace WebProgramlamaFinalProject.Controllers
 			DateTime startTime = (DateTime)TempData["StartTime"];
 			DateTime endTime = (DateTime)TempData["EndTime"];
 
-			TempData.Keep(); // ⬅️ penting biar POST bisa pakai lagi
+			TempData.Keep(); 
 
 			var trainer = _context.Trainers.Find(trainerId);
 			var service = _context.Services.Find(serviceId);
@@ -360,7 +359,7 @@ namespace WebProgramlamaFinalProject.Controllers
 		[HttpPost]
 		public async Task<IActionResult> AiFeature(AiFitnessInputViewModel model)
 		{
-			// 1️⃣ HITUNG BMI (LOGIKA DASAR)
+			
 			double heightM = model.HeightCm / 100.0;
 			double bmi = model.WeightKg / (heightM * heightM);
 
@@ -378,7 +377,7 @@ namespace WebProgramlamaFinalProject.Controllers
 				_ => 1600
 			};
 
-			// 2️⃣ CALL OPENAI
+		
 			var apiKey = _configuration["OpenAI:ApiKey"];
 
 			var client = new HttpClient();
@@ -399,8 +398,6 @@ namespace WebProgramlamaFinalProject.Controllers
 			var response = await client.PostAsJsonAsync(
 				"https://api.openai.com/v1/chat/completions", body);
 
-			//var json = await response.Content.ReadFromJsonAsync<dynamic>();
-			//string aiText = json.choices[0].message.content;
 
 			var jsonString = await response.Content.ReadAsStringAsync();
 			var jsonDoc = JsonDocument.Parse(jsonString);
@@ -413,7 +410,7 @@ namespace WebProgramlamaFinalProject.Controllers
 					.GetString();
 
 
-			// 3️⃣ KIRIM KE RESULT VIEW
+			
 			var result = new AiFitnessResultViewModel
 			{
 				BMI = Math.Round(bmi, 2),
@@ -426,7 +423,6 @@ namespace WebProgramlamaFinalProject.Controllers
 		}
 
 
-		// ================= Body Goal Form POST ==================
 		[HttpPost]
 		public async Task<IActionResult> AiBodyGoal(AiFitnessInputViewModel model)
 		{
@@ -445,7 +441,7 @@ namespace WebProgramlamaFinalProject.Controllers
 				imageUrl = Url.Content($"~/uploads/{fileName}");
 			}
 
-			// OpenAI call
+			
 			var apiKey = _configuration["OpenAI:ApiKey"];
 			var client = new HttpClient();
 			client.DefaultRequestHeaders.Authorization =
@@ -479,7 +475,6 @@ namespace WebProgramlamaFinalProject.Controllers
 			return View("AiBodyGoal", result);
 		}
 	}
-
 
 
 

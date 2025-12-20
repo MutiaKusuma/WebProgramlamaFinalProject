@@ -14,7 +14,6 @@ namespace WebProgramlamaFinalProject.Controllers
 			_context = context;
 		}
 
-		//  GET: api/appointmentsapi
 		[HttpGet]
 		public IActionResult GetAllAppointments([FromQuery] string? status)
 		{
@@ -24,7 +23,7 @@ namespace WebProgramlamaFinalProject.Controllers
 				.Include(a => a.Service)
 				.AsQueryable();
 
-			// Filter berdasarkan status kalau ada query param
+	
 			if (!string.IsNullOrEmpty(status))
 			{
 				appointmentsQuery = appointmentsQuery

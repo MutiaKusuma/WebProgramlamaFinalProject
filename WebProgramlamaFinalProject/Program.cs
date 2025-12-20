@@ -6,29 +6,25 @@ using WebProgramlamaFinalProject.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-//.AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 {
-	//options.SignIn.RequireConfirmedAccount = true;
+	
 	options.SignIn.RequireConfirmedAccount = false;
 
 
-	// IZINKAN password sederhana seperti "sau"
+	
 	options.Password.RequireDigit = false;
 	options.Password.RequireLowercase = false;
 	options.Password.RequireUppercase = false;
 	options.Password.RequireNonAlphanumeric = false;
-	options.Password.RequiredLength = 1;  // boleh 1 karakter pun
+	options.Password.RequiredLength = 1;  
 })
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
@@ -42,20 +38,19 @@ builder.Services.AddControllers()
 		options.JsonSerializerOptions.WriteIndented = true;
 	});
 
-builder.Services.AddRazorPages();  //baru ditambahin (04/12/25)
+builder.Services.AddRazorPages();  
 
 builder.Services.AddScoped<OpenAiService>();
 
 
 var app = builder.Build();
 
-///////TAMBAHAN////////
+
 using (var scope = app.Services.CreateScope())
 {
 	var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 	var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
-	// Buat roles: Admin & User
 	string[] roles = { "Admin", "User" };
 	foreach (var role in roles)
 	{
@@ -65,7 +60,6 @@ using (var scope = app.Services.CreateScope())
 		}
 	}
 
-	// Buat admin default
 	var adminEmail = "b221210590@sakarya.edu.tr";
 	var adminPassword = "sau";
 
@@ -76,11 +70,8 @@ using (var scope = app.Services.CreateScope())
 		await userManager.AddToRoleAsync(adminUser, "Admin");
 	}
 }
-//////TAMBAHAN////////  
 
 
-
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
@@ -88,7 +79,7 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+
     app.UseHsts();
 }
 
@@ -97,7 +88,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthentication(); //baru ditambahin (04/12/25)
+app.UseAuthentication(); 
 
 app.UseAuthorization();
 
@@ -106,6 +97,6 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapRazorPages();
-app.MapControllers();  // <- wajib untuk API Controller
+app.MapControllers();  
 
 app.Run();

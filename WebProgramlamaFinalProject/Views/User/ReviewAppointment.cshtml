@@ -30,15 +30,14 @@
     <script>
         $(document).ready(function () {
             $(".review-appointment-form").on("submit", function (e) {
-                e.preventDefault(); // cegah submit default
+                e.preventDefault(); 
 
-                // Contoh alert / loading
                 alert("Submitting your appointment...");
 
-                // Disable tombol supaya ga double click
+       
                 $(this).find("button[type='submit']").prop("disabled", true).text("Submitting...");
 
-                // Submit form secara manual setelah efek
+                
                 this.submit();
             });
         });

@@ -80,8 +80,8 @@ namespace WebProgramlamaFinalProject.Controllers
 		public IActionResult ManageTrainers()
 		{
 			var trainers = _context.Trainers
-				.Include(t => t.TrainerServices)       // load relasi many-to-many
-					.ThenInclude(ts => ts.Service)     // load Service dari relasi
+				.Include(t => t.TrainerServices)      
+					.ThenInclude(ts => ts.Service)     
 				.ToList();
 
 			return View(trainers);
@@ -106,16 +106,16 @@ namespace WebProgramlamaFinalProject.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
-				// reload services supaya checkbox tidak hilang
+			
 				model.Services = _context.Services.ToList();
 				return View(model);
 			}
 
-			// 1️⃣ Simpan trainer dulu
+			
 			_context.Trainers.Add(model.Trainer);
 			_context.SaveChanges();
 
-			// 2️⃣ Simpan relasi many-to-many
+
 			foreach (var serviceId in model.SelectedServiceIds)
 			{
 				var ts = new TrainerService
@@ -139,18 +139,18 @@ namespace WebProgramlamaFinalProject.Controllers
 			if (trainer == null)
 				return NotFound();
 
-			// Hapus semua schedule dulu
+			
 			var schedules = _context.TrainerSchedules.Where(s => s.TrainerId == id).ToList();
 			_context.TrainerSchedules.RemoveRange(schedules);
 
-			// Baru hapus trainer
+			
 			_context.Trainers.Remove(trainer);
 			_context.SaveChanges();
 
 			return RedirectToAction("ManageTrainers");
 		}
 
-		// GET: /Admin/EditTrainer/5
+
 		[HttpGet]
 		public IActionResult EditTrainer(int id)
 		{
@@ -171,7 +171,7 @@ namespace WebProgramlamaFinalProject.Controllers
 			return View(vm);
 		}
 
-		// POST: /Admin/EditTrainer/5
+		
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public IActionResult EditTrainer([FromForm] TrainerFormViewModel model)
@@ -189,13 +189,13 @@ namespace WebProgramlamaFinalProject.Controllers
 			if (trainer == null)
 				return NotFound();
 
-			// Update nama trainer
+			
 			trainer.Name = model.Trainer.Name;
 
-			// Hapus relasi many-to-many lama
+			
 			_context.TrainerServices.RemoveRange(trainer.TrainerServices);
 
-			// Tambahkan relasi baru
+			
 			foreach (var serviceId in model.SelectedServiceIds)
 			{
 				_context.TrainerServices.Add(new TrainerService
@@ -211,7 +211,7 @@ namespace WebProgramlamaFinalProject.Controllers
 		}
 
 
-		// GET: Set Schedule form
+		
 		[HttpGet]
 		public IActionResult SetSchedule(int id)
 		{
@@ -230,7 +230,7 @@ namespace WebProgramlamaFinalProject.Controllers
 		}
 
 
-		// POST: Save new schedule
+
 		[HttpPost]
 		public IActionResult SetSchedule(int id, DayOfWeek dayOfWeek, TimeSpan startTime, TimeSpan endTime)
 		{
@@ -287,14 +287,13 @@ namespace WebProgramlamaFinalProject.Controllers
 		}
 
 
-		// GET
 		[HttpGet]
 		public IActionResult CreateService()
 		{
 			return View();
 		}
 
-		// POST
+		
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public IActionResult CreateService(Service model)
@@ -311,7 +310,6 @@ namespace WebProgramlamaFinalProject.Controllers
 		}
 
 
-		// GET: /Admin/EditService
 		[HttpGet]
 		public IActionResult EditService(int id)
 		{
@@ -323,7 +321,6 @@ namespace WebProgramlamaFinalProject.Controllers
 		}
 
 
-		// POST: /Admin/EditService
 		[HttpPost]
 		public IActionResult EditService(Service model)
 		{

@@ -14,7 +14,7 @@ namespace WebProgramlamaFinalProject.Controllers
 			_context = context;
 		}
 
-		// ✅ GET: api/trainers
+
 		[HttpGet]
 		public IActionResult GetAllTrainers([FromQuery] string? service)
 		{

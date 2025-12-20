@@ -8,7 +8,6 @@ namespace WebProgramlamaFinalProject.Services
 	{
 		public Task SendEmailAsync(string email, string subject, string htmlMessage)
 		{
-			// Tidak melakukan apa-apa
 			return Task.CompletedTask;
 		}
 	}

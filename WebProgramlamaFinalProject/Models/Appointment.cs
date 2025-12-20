@@ -28,7 +28,7 @@ namespace WebProgramlamaFinalProject.Models
 		public DateTime EndTime { get; set; }
 
 		[Required]
-		public string Status { get; set; } // Pending / Approved / Rejected
+		public string Status { get; set; } 
 
 
 	}

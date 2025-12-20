@@ -16,9 +16,6 @@ namespace WebProgramlamaFinalProject.Models
 		[Required]
 		public string Name { get; set; }
 
-		//public string Specialization { get; set; } //dihapus soalnya mau ganti kecheckbox
-
-		// Navigasi ke jadwal
 		public ICollection<TrainerSchedule> Schedules { get; set; }
 
 		// MANY–TO–MANY
