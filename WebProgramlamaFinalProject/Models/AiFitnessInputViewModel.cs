@@ -13,5 +13,8 @@ namespace WebProgramlamaFinalProject.Models
 		[Required]
 		[Range(30, 200)]
 		public int WeightKg { get; set; }
+
+		public IFormFile? BodyImage { get; set; }
+		public string? TargetGoal { get; set; }
 	}
 }

@@ -1,8 +1,45 @@
 ﻿@model List<WebProgramlamaFinalProject.Models.Appointment>
 
+@{
+    var totalAppointments = Model.Count;
+    var pastAppointments = Model.Count(a => a.StartTime < DateTime.Now);
+    var upcomingAppointments = Model.Count(a => a.StartTime >= DateTime.Now);
+}
+
 <h2 class="mb-3">Manage Appointments</h2>
 <hr />
 
+<!-- ================= SUMMARY CARDS ================= -->
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card text-white bg-primary shadow-sm">
+            <div class="card-body text-center">
+                <h5>Total Appointments</h5>
+                <h2>@totalAppointments</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card text-white bg-secondary shadow-sm">
+            <div class="card-body text-center">
+                <h5>Past Appointments</h5>
+                <h2>@pastAppointments</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card text-white bg-success shadow-sm">
+            <div class="card-body text-center">
+                <h5>Upcoming Appointments</h5>
+                <h2>@upcomingAppointments</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ================= TABLE ================= -->
 @if (!Model.Any())
 {
     <p class="text-muted">No appointments found.</p>
@@ -25,28 +62,41 @@ else
             <tbody>
                 @foreach (var a in Model)
                 {
-                    <tr>
+                    var rowClass = a.StartTime < DateTime.Now
+                    ? "table-secondary"   // Past
+                    : "table-success";    // Upcoming
+
+                    <tr class="@rowClass">
                         <td>@a.User.Email</td>
                         <td>@a.Service.Name</td>
                         <td>@a.Trainer.Name</td>
                         <td>@a.StartTime.ToString("dd MMM yyyy")</td>
                         <td>@a.StartTime.ToString("HH:mm") - @a.EndTime.ToString("HH:mm")</td>
                         <td>
-                            <span class="fw-bold">@a.Status</span>
-                        </td>
-                        <td>
-                            @if (a.Status == "Pending")
+                            <span class="badge
+                                        @(a.Status == "Approved" ? "bg-success" :
+                                                                    a.Status == "Rejected" ? "bg-danger" :
+                                                                    "bg-warning text-dark")">
+                        @a.Status
+                    </span>
+                </td>
+                <td>
+                    @if (a.Status == "Pending")
                             {
                                 <form asp-action="UpdateAppointmentStatus" method="post" style="display:inline">
                                     <input type="hidden" name="id" value="@a.Id" />
                                     <input type="hidden" name="status" value="Approved" />
-                                    <button type="submit" class="btn btn-success btn-sm me-1">Approve</button>
+                                    <button type="submit" class="btn btn-success btn-sm me-1">
+                                        Approve
+                                    </button>
                                 </form>
 
                                 <form asp-action="UpdateAppointmentStatus" method="post" style="display:inline">
                                     <input type="hidden" name="id" value="@a.Id" />
                                     <input type="hidden" name="status" value="Rejected" />
-                                    <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                                    <button type="submit" class="btn btn-danger btn-sm">
+                                        Reject
+                                    </button>
                                 </form>
                             }
                             else

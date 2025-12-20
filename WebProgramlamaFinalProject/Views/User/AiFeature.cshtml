@@ -1,25 +1,55 @@
 ﻿@model AiFitnessInputViewModel
 
 <div class="container mt-5">
-    <div class="card shadow-sm p-4 mx-auto" style="max-width: 500px;">
-        <h2 class="mb-4 text-center">AI Fitness & Diet Recommendation</h2>
+    <div class="row">
 
-        <form asp-action="AiFeature" method="post">
-            <div class="mb-3">
-                <label asp-for="HeightCm" class="form-label">Height (cm)</label>
-                <input asp-for="HeightCm" class="form-control" placeholder="Enter your height in cm" />
-                <span asp-validation-for="HeightCm" class="text-danger"></span>
+        <!-- KIRI: BMI Form -->
+        <div class="col-md-6">
+            <div class="card shadow-sm p-4 mb-4">
+                <h3 class="mb-3 text-center">BMI Calculator</h3>
+                <form asp-action="AiFeature" method="post">
+                    <div class="mb-3">
+                        <label asp-for="HeightCm" class="form-label">Height (cm)</label>
+                        <input asp-for="HeightCm" class="form-control" />
+                        <span asp-validation-for="HeightCm" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="WeightKg" class="form-label">Weight (kg)</label>
+                        <input asp-for="WeightKg" class="form-control" />
+                        <span asp-validation-for="WeightKg" class="text-danger"></span>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary mt-3">Analyze with AI</button>
+                    </div>
+                </form>
             </div>
+        </div>
 
-            <div class="mb-3">
-                <label asp-for="WeightKg" class="form-label">Weight (kg)</label>
-                <input asp-for="WeightKg" class="form-control" placeholder="Enter your weight in kg" />
-                <span asp-validation-for="WeightKg" class="text-danger"></span>
+        <!-- KANAN: Body Goal Form -->
+        <div class="col-md-6">
+            <div class="card shadow-sm p-4 mb-4">
+                <h3 class="mb-3 text-center">Analyze Your Body</h3>
+                <form asp-action="AiBodyGoal" method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label asp-for="BodyImage" class="form-label">Upload Your Photo</label>
+                        <input asp-for="BodyImage" type="file" class="form-control" accept="image/*" />
+                        <span asp-validation-for="BodyImage" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="TargetGoal" class="form-label">Target Goal</label>
+                        <select asp-for="TargetGoal" class="form-select">
+                            <option value="Maintain">Maintain</option>
+                            <option value="LoseWeight">Lose Weight</option>
+                            <option value="GainWeight">Gain Weight</option>
+                        </select>
+                        <span asp-validation-for="TargetGoal" class="text-danger"></span>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-success mt-3">Analyze Your Body</button>
+                    </div>
+                </form>
             </div>
+        </div>
 
-            <div class="text-center">
-                <button type="submit" class="btn btn-primary btn-lg mt-3">Analyze with AI</button>
-            </div>
-        </form>
     </div>
 </div>

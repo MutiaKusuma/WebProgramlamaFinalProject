@@ -426,13 +426,65 @@ namespace WebProgramlamaFinalProject.Controllers
 		}
 
 
+		// ================= Body Goal Form POST ==================
+		[HttpPost]
+		public async Task<IActionResult> AiBodyGoal(AiFitnessInputViewModel model)
+		{
+			string? imageUrl = null;
 
+			if (model.BodyImage != null && model.BodyImage.Length > 0)
+			{
+				var fileName = Path.GetFileName(model.BodyImage.FileName);
+				var filePath = Path.Combine("wwwroot/uploads", fileName);
 
+				using (var stream = new FileStream(filePath, FileMode.Create))
+				{
+					await model.BodyImage.CopyToAsync(stream);
+				}
 
-		// ================= Ai Feature ==================//
-		// ================= Ai Feature ==================//
-		// ================= Ai Feature ==================//
+				imageUrl = Url.Content($"~/uploads/{fileName}");
+			}
+
+			// OpenAI call
+			var apiKey = _configuration["OpenAI:ApiKey"];
+			var client = new HttpClient();
+			client.DefaultRequestHeaders.Authorization =
+				new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", apiKey);
+
+			var prompt = $"User uploaded photo: {imageUrl}. Target goal: {model.TargetGoal}. Suggest a personalized plan.";
+
+			var body = new
+			{
+				model = "gpt-4o-mini",
+				messages = new[] { new { role = "user", content = prompt } }
+			};
+
+			var response = await client.PostAsJsonAsync("https://api.openai.com/v1/chat/completions", body);
+			var jsonString = await response.Content.ReadAsStringAsync();
+			var jsonDoc = JsonDocument.Parse(jsonString);
+
+			string aiText = jsonDoc.RootElement
+				.GetProperty("choices")[0]
+				.GetProperty("message")
+				.GetProperty("content")
+				.GetString();
+
+			var result = new AiFitnessResultViewModel
+			{
+				UploadedImageUrl = imageUrl,
+				TargetGoal = model.TargetGoal,
+				DietRecommendation = aiText
+			};
+
+			return View("AiBodyGoal", result);
+		}
 	}
 
 
+
+
+	// ================= Ai Feature ==================//
+	// ================= Ai Feature ==================//
+	// ================= Ai Feature ==================//
 }
+

@@ -14,14 +14,24 @@ namespace WebProgramlamaFinalProject.Controllers
 			_context = context;
 		}
 
-		// ✅ GET: api/appointments
+		//  GET: api/appointmentsapi
 		[HttpGet]
-		public IActionResult GetAllAppointments()
+		public IActionResult GetAllAppointments([FromQuery] string? status)
 		{
-			var appointments = _context.Appointments
+			var appointmentsQuery = _context.Appointments
 				.Include(a => a.User)
 				.Include(a => a.Trainer)
 				.Include(a => a.Service)
+				.AsQueryable();
+
+			// Filter berdasarkan status kalau ada query param
+			if (!string.IsNullOrEmpty(status))
+			{
+				appointmentsQuery = appointmentsQuery
+					.Where(a => a.Status == status);
+			}
+
+			var appointments = appointmentsQuery
 				.OrderBy(a => a.StartTime)
 				.Select(a => new
 				{
@@ -37,5 +47,6 @@ namespace WebProgramlamaFinalProject.Controllers
 
 			return Ok(appointments);
 		}
+
 	}
 }

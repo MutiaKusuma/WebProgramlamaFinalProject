@@ -1,0 +1,109 @@
+﻿@{
+    ViewData["Title"] = "Database";
+}
+
+<div class="container mt-5">
+    <h2>Database Viewer</h2>
+    <hr />
+
+    <div class="mb-3">
+        <p>Select a button from the “Database” menu in the navbar to view data.</p>
+    </div>
+
+    <div id="db-table-container" class="table-responsive mt-4">
+        <!-- Table akan di-render di sini via jQuery -->
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+                $(document).ready(function () {
+
+            // Alert untuk non-admin
+            $(document).on("click", ".alert-admin", function () {
+                alert('Only Admin Can Access This Page');
+            });
+
+            function renderTable(headers, rows) {
+                let table = `<table class="table table-bordered table-striped"><thead><tr>`;
+                headers.forEach(h => table += `<th>${h}</th>`);
+                table += `</tr></thead><tbody>`;
+                rows.forEach(r => {
+                    table += `<tr>`;
+                    for (let key in r) {
+                        table += `<td>${r[key]}</td>`;
+                    }
+                    table += `</tr>`;
+                });
+                table += `</tbody></table>`;
+                $("#db-table-container").html(table);
+            }
+
+            function fetchData(type) {
+                if(type === "allTrainers") {
+                    $.get("/api/trainersapi", function(data){
+                        renderTable(["ID", "Name", "Services"], data.map(t => ({
+                            Id: t.Id,
+                            Name: t.Name,
+                            Services: t.Services.join(", ")
+                        })));
+                    });
+                }
+                else if(type === "yogaTrainers") {
+                    $.get("/api/trainersapi?service=Yoga", function(data){
+                        renderTable(["ID", "Name", "Services"], data.map(t => ({
+                            Id: t.Id,
+                            Name: t.Name,
+                            Services: t.Services.join(", ")
+                        })));
+                    });
+                }
+                else if(type === "allAppointments") {
+                    $.get("/api/appointmentsapi", function(data){
+                        renderTable(["ID","Member","Trainer","Service","StartTime","EndTime","Status"],
+                            data.map(a => ({
+                                Id: a.Id,
+                                Member: a.MemberName,
+                                Trainer: a.TrainerName,
+                                Service: a.ServiceName,
+                                StartTime: new Date(a.StartTime).toLocaleString(),
+                                EndTime: new Date(a.EndTime).toLocaleString(),
+                                Status: a.Status
+                            })));
+                    });
+                }
+                else if(type === "approvedAppointments") {
+                    $.get("/api/appointmentsapi?status=Approved", function(data){ renderTableAppointments(data); });
+                }
+                else if(type === "pendingAppointments") {
+                    $.get("/api/appointmentsapi?status=Pending", function(data){ renderTableAppointments(data); });
+                }
+                else if(type === "rejectedAppointments") {
+                    $.get("/api/appointmentsapi?status=Rejected", function(data){ renderTableAppointments(data); });
+                }
+            }
+
+            function renderTableAppointments(data) {
+                renderTable(["ID","Member","Trainer","Service","StartTime","EndTime","Status"],
+                    data.map(a => ({
+                        Id: a.Id,
+                        Member: a.MemberName,
+                        Trainer: a.TrainerName,
+                        Service: a.ServiceName,
+                        StartTime: new Date(a.StartTime).toLocaleString(),
+                        EndTime: new Date(a.EndTime).toLocaleString(),
+                        Status: a.Status
+                    })));
+            }
+
+            // Event click navbar
+            $(document).on("click", ".db-btn", function(e) {
+                e.preventDefault();
+                let type = $(this).data("type");
+                fetchData(type);
+            });
+
+        });
+
+    </script>
+}

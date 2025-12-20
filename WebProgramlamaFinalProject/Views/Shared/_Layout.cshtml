@@ -67,7 +67,32 @@
                                 <a class="nav-link text-dark admin-link" href="#">Admin Panel</a>
                             }
                         </li>
+
+                        <!-- Database dropdown menu (hanya untuk Admin) -->
+                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#"
+                                   id="navbarDatabase" role="button"
+                                   data-bs-toggle="dropdown"
+                                   aria-expanded="false">
+                                    Database
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDatabase">
+                                    <li><a class="dropdown-item" href="/api/trainersapi">All Trainers</a></li>
+                                    <li><a class="dropdown-item" href="/api/trainersapi?service=Yoga">Yoga Trainers</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="/api/appointmentsapi">All Appointments</a></li>
+                                    <li><a class="dropdown-item" href="/api/appointmentsapi?status=Approved">Approved Appointments</a></li>
+                                    <li><a class="dropdown-item" href="/api/appointmentsapi?status=Pending">Pending Appointments</a></li>
+                                    <li><a class="dropdown-item" href="/api/appointmentsapi?status=Rejected">Rejected Appointments</a></li>
+                                </ul>
+                            </li>
+                        }
+
+
                     </ul>
+
 
                     <!-- Login / Logout Partial -->
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">

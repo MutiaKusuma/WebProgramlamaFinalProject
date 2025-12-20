@@ -10,10 +10,6 @@ namespace WebProgramlamaFinalProject.Controllers
 	[Authorize(Roles = "Admin")]
 	public class AdminController : Controller
 	{
-		public IActionResult Index()
-		{
-			return View();
-		}
 
 		private readonly ApplicationDbContext _context;
 
@@ -22,12 +18,15 @@ namespace WebProgramlamaFinalProject.Controllers
 			_context = context;
 		}
 
-
 		public IActionResult Dashboard()
 		{
 			return View();
 		}
 
+		public IActionResult Database()
+		{
+			return View();
+		}
 
 		// ================= Appointments ==================//
 		// ================= Appointments ==================//
@@ -42,6 +41,10 @@ namespace WebProgramlamaFinalProject.Controllers
 				.Include(a => a.Service)
 				.OrderBy(a => a.StartTime)
 				.ToList();
+
+			ViewBag.TotalAppointments = appointments.Count;
+			ViewBag.PastAppointments = appointments.Count(a => a.EndTime < DateTime.Now);
+			ViewBag.UpcomingAppointments = appointments.Count(a => a.StartTime > DateTime.Now);
 
 			return View(appointments);
 		}

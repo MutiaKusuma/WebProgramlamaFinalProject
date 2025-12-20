@@ -16,11 +16,20 @@ namespace WebProgramlamaFinalProject.Controllers
 
 		// ✅ GET: api/trainers
 		[HttpGet]
-		public IActionResult GetAllTrainers()
+		public IActionResult GetAllTrainers([FromQuery] string? service)
 		{
-			var trainers = _context.Trainers
+			var trainersQuery = _context.Trainers
 				.Include(t => t.TrainerServices)
 					.ThenInclude(ts => ts.Service)
+				.AsQueryable();
+
+			if (!string.IsNullOrEmpty(service))
+			{
+				trainersQuery = trainersQuery
+					.Where(t => t.TrainerServices.Any(ts => ts.Service.Name == service));
+			}
+
+			var trainers = trainersQuery
 				.Select(t => new
 				{
 					t.Id,
@@ -33,5 +42,6 @@ namespace WebProgramlamaFinalProject.Controllers
 
 			return Ok(trainers);
 		}
+
 	}
 }

@@ -7,5 +7,8 @@
 		public int DailyCalories { get; set; }
 		public string DietRecommendation { get; set; }
 
+
+		public string? UploadedImageUrl { get; set; }
+		public string? TargetGoal { get; set; }
 	}
 }
