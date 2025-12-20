@@ -1,46 +1,46 @@
 ﻿@model List<WebProgramlamaFinalProject.Models.Appointment>
 
-<h2>My Appointments</h2>
+<div class="container mt-5">
+    <h2 class="mb-3">My Appointments</h2>
 
-<p>
-    Here are your appointments, <strong>@ViewBag.UserName</strong>
-</p>
+    <p class="lead">
+        Here are your appointments, <strong>@ViewBag.UserName</strong>
+    </p>
 
-<hr />
+    <hr />
 
-@if (!Model.Any())
-{
-    <p>You don’t have any appointments yet.</p>
-}
-else
-{
-    <table border="1" cellpadding="8">
-        <thead>
-            <tr>
-                <th>Trainer</th>
-                <th>Service</th>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var a in Model)
-            {
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            You don’t have any appointments yet.
+        </div>
+    }
+    else
+    {
+        <table class="table table-bordered table-striped">
+            <thead class="table-light">
                 <tr>
-                    <td>@a.Trainer.Name</td>
-                    <td>@a.Service.Name</td>
-                    <td>@a.StartTime.ToString("dd MMM yyyy")</td>
-                    <td>
-                        @a.StartTime.ToString("HH:mm")
-                        -
-                        @a.EndTime.ToString("HH:mm")
-                    </td>
-                    <td>
-                        @a.Status
-                    </td>
+                    <th>Trainer</th>
+                    <th>Service</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-}
+            </thead>
+            <tbody>
+                @foreach (var a in Model)
+                {
+                    <tr>
+                        <td>@a.Trainer.Name</td>
+                        <td>@a.Service.Name</td>
+                        <td>@a.StartTime.ToString("dd MMM yyyy")</td>
+                        <td>@a.StartTime.ToString("HH:mm") - @a.EndTime.ToString("HH:mm")</td>
+                        <td>
+                            <span class="fw-bold">@a.Status</span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

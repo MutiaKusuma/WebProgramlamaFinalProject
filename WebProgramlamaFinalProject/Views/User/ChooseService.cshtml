@@ -1,20 +1,22 @@
 ﻿@model List<WebProgramlamaFinalProject.Models.Service>
 
-<h2>Select a Service</h2>
+<div class="container mt-5">
+    <h2 class="mb-3">Select a Service</h2>
 
-<form asp-action="ChooseService" asp-controller="User" method="post">
-    <div class="list-group">
+    <form asp-action="ChooseService" asp-controller="User" method="post">
+        <div class="list-group mb-3">
+            @foreach (var s in Model)
+            {
+                <label class="list-group-item list-group-item-action">
+                    <input type="radio" name="serviceId" value="@s.Id" required class="form-check-input me-2" />
+                    <strong>@s.Name</strong> — @s.DurationInMinutes minutes — ₺@s.Price
+                </label>
+            }
+        </div>
 
-        @foreach (var s in Model)
-        {
-            <label class="list-group-item">
-                <input type="radio" name="serviceId" value="@s.Id" />
-                <strong>@s.Name</strong>
-                — @s.DurationInMinutes minutes — ₺@s.Price
-            </label>
-        }
-
-    </div>
-
-    <button type="submit" class="btn btn-primary mt-3">Continue</button>
-</form>
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary">Continue</button>
+            <a href="/User/Dashboard" class="btn btn-secondary">← Back</a>
+        </div>
+    </form>
+</div>

@@ -1,14 +1,17 @@
-﻿<h2>Appointment Submitted</h2>
+﻿<div class="container mt-5 text-center">
+    <div class="card shadow-sm p-4">
+        <h2 class="mb-3 text-success">
+            <i class="bi bi-check-circle-fill"></i> Appointment Submitted
+        </h2>
+        <hr />
 
-<hr />
+        <p><strong>Status appointment:</strong> <span class="text-warning">Pending</span></p>
+        <p>Your appointment is being reviewed by admin. You will be notified once it’s confirmed.</p>
 
-<p><strong>Status appointment:</strong> Pending</p>
-<p>Your appointment is being looked by admin.</p>
-
-<br />
-
-<form asp-action="Dashboard" method="get">
-    <button type="submit" class="btn btn-primary">
-        Back to Home
-    </button>
-</form>
+        <form asp-action="Dashboard" method="get" class="mt-4">
+            <button type="submit" class="btn btn-primary btn-lg">
+                Back to Dashboard
+            </button>
+        </form>
+    </div>
+</div>

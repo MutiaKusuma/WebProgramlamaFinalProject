@@ -1,21 +1,28 @@
 ﻿@model List<WebProgramlamaFinalProject.Models.Trainer>
 
-<h2>Choose Your Trainer</h2>
+<div class="container mt-5">
+    <h2 class="mb-3">Choose Your Trainer</h2>
 
-<p>Selected Service: <strong>@ViewBag.Service.Name</strong></p>
+    <p class="lead">
+        Selected Service: <strong>@ViewBag.Service.Name</strong>
+    </p>
 
-<form method="post">
-    <input type="hidden" name="serviceId" value="@ViewBag.Service.Id" />
+    <form method="post">
+        <input type="hidden" name="serviceId" value="@ViewBag.Service.Id" />
 
-    <div class="list-group">
-        @foreach (var t in Model)
-        {
-            <label class="list-group-item">
-                <input type="radio" name="trainerId" value="@t.Id" required />
-                @t.Name
-            </label>
-        }
-    </div>
+        <div class="list-group mb-3">
+            @foreach (var t in Model)
+            {
+                <label class="list-group-item list-group-item-action">
+                    <input type="radio" name="trainerId" value="@t.Id" required class="form-check-input me-2" />
+                    @t.Name
+                </label>
+            }
+        </div>
 
-    <button type="submit" class="btn btn-primary mt-3">Next</button>
-</form>
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary">Next</button>
+            <a href="/User/ChooseService" class="btn btn-secondary">← Back</a>
+        </div>
+    </form>
+</div>

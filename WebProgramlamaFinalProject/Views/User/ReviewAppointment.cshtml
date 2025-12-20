@@ -1,20 +1,46 @@
 ﻿@model ReviewAppointmentViewModel
 
-<h2>Review Appointment</h2>
-<hr />
+<div class="container mt-5">
+    <h2 class="mb-3">Review Appointment</h2>
+    <hr />
 
-<p><strong>Trainer:</strong> @Model.TrainerName</p>
-<p><strong>Service:</strong> @Model.ServiceName</p>
-<p><strong>Date:</strong> @Model.StartTime.ToString("dd MMM yyyy")</p>
-<p><strong>Time:</strong> @Model.StartTime.ToString("HH:mm") - @Model.EndTime.ToString("HH:mm")</p>
+    <div class="mb-3">
+        <p><strong>Trainer:</strong> @Model.TrainerName</p>
+        <p><strong>Service:</strong> @Model.ServiceName</p>
+        <p><strong>Date:</strong> @Model.StartTime.ToString("dd MMM yyyy")</p>
+        <p><strong>Time:</strong> @Model.StartTime.ToString("HH:mm") - @Model.EndTime.ToString("HH:mm")</p>
+    </div>
 
-<form asp-action="SubmitAppointment" method="post">
+    <form asp-action="SubmitAppointment" method="post" class="review-appointment-form">
+        <!-- hidden fields -->
+        <input type="hidden" asp-for="TrainerId" />
+        <input type="hidden" asp-for="ServiceId" />
+        <input type="hidden" asp-for="StartTime" />
+        <input type="hidden" asp-for="EndTime" />
 
-    <!-- HIDDEN INPUT WAJIB -->
-    <input type="hidden" asp-for="TrainerId" />
-    <input type="hidden" asp-for="ServiceId" />
-    <input type="hidden" asp-for="StartTime" />
-    <input type="hidden" asp-for="EndTime" />
+        <div class="d-flex justify-content-between mt-4">
+            <button type="submit" class="btn btn-primary">Submit Appointment</button>
+            <a href="/User/ChooseSlot" class="btn btn-secondary">← Back</a>
+        </div>
+    </form>
+</div>
 
-    <button type="submit">Submit Appointment</button>
-</form>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(".review-appointment-form").on("submit", function (e) {
+                e.preventDefault(); // cegah submit default
+
+                // Contoh alert / loading
+                alert("Submitting your appointment...");
+
+                // Disable tombol supaya ga double click
+                $(this).find("button[type='submit']").prop("disabled", true).text("Submitting...");
+
+                // Submit form secara manual setelah efek
+                this.submit();
+            });
+        });
+    </script>
+}

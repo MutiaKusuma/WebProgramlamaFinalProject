@@ -35,16 +35,16 @@
                                 var isAdmin = User.IsInRole("Admin");
                                 if (isAdmin)
                                 {
-                                    <a class="nav-link text-dark" asp-controller="Admin" asp-action="Dashboard">Home</a>
+                                    <a class="nav-link text-dark home-link" asp-controller="Admin" asp-action="Dashboard">Home</a>
                                 }
                                 else
                                 {
-                                    <a class="nav-link text-dark" asp-controller="User" asp-action="Dashboard">Home</a>
+                                    <a class="nav-link text-dark home-link" asp-controller="User" asp-action="Dashboard">Home</a>
                                 }
                             }
                             else
                             {
-                                <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
+                                <a class="nav-link text-dark home-link" asp-controller="Home" asp-action="Index">Home</a>
                             }
                         </li>
 
@@ -55,16 +55,16 @@
                                 var isAdmin = User.IsInRole("Admin");
                                 if (isAdmin)
                                 {
-                                    <a class="nav-link text-dark" asp-controller="Admin" asp-action="Dashboard">Admin Panel</a>
+                                    <a class="nav-link text-dark admin-link" asp-controller="Admin" asp-action="Dashboard">Admin Panel</a>
                                 }
                                 else
                                 {
-                                    <a class="nav-link text-dark" href="javascript:void(0);" onclick="alert('Only Admin Can Access This Page')">Admin Panel</a>
+                                    <a class="nav-link text-dark admin-link" href="javascript:void(0);" id="alertAdmin">Admin Panel</a>
                                 }
                             }
                             else
                             {
-                                <a class="nav-link text-dark" href="#">Admin Panel</a>
+                                <a class="nav-link text-dark admin-link" href="#">Admin Panel</a>
                             }
                         </li>
                     </ul>
@@ -89,6 +89,31 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script>
+        // JavaScript murni untuk alert admin
+        document.getElementById('alertAdmin')?.addEventListener('click', function () {
+            alert('Only Admin Can Access This Page');
+        });
+
+        // jQuery untuk highlight menu aktif
+        $(document).ready(function() {
+            var currentUrl = window.location.pathname.toLowerCase();
+            $('.navbar-nav .nav-link').each(function() {
+                var linkUrl = $(this).attr('href')?.toLowerCase();
+                if (linkUrl && currentUrl.includes(linkUrl)) {
+                    $(this).addClass('active fw-bold text-primary');
+                }
+            });
+
+            // Hover effect untuk semua nav links
+            $('.navbar-nav .nav-link').hover(
+                function() { $(this).addClass('text-info'); },
+                function() { $(this).removeClass('text-info'); }
+            );
+        });
+    </script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

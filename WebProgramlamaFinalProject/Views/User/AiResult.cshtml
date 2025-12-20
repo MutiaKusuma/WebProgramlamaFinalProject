@@ -1,26 +1,24 @@
 ﻿@model AiFitnessResultViewModel
 
-<h2>AI Fitness Result</h2>
+<div class="container mt-5">
+    <div class="card shadow-sm p-4 mx-auto" style="max-width: 600px;">
+        <h2 class="mb-4 text-center">AI Fitness Result</h2>
 
-<p><strong>BMI:</strong> @Model.BMI</p>
-<p><strong>Category:</strong> @Model.Category</p>
-<p><strong>Daily Calories:</strong> @Model.DailyCalories kcal</p>
+        <div class="mb-3">
+            <p><strong>BMI:</strong> @Model.BMI</p>
+            <p><strong>Category:</strong> @Model.Category</p>
+            <p><strong>Daily Calories:</strong> @Model.DailyCalories kcal</p>
+        </div>
 
-<hr />
+        <hr />
 
-<h3>Diet Recommendation</h3>
+        <h4>Diet Recommendation</h4>
+        <div class="p-3 mb-3 bg-light rounded" style="white-space: pre-wrap; font-family: inherit;">
+            @Model.DietRecommendation
+        </div>
 
-<pre style="
-    white-space: pre-wrap;
-    font-family: inherit;
-    background: #f8f9fa;
-    padding: 15px;
-    border-radius: 8px;
-">
-@Model.DietRecommendation
-</pre>
-
-<br />
-
-<a asp-action="Dashboard" class="btn btn-primary">Back to Home</a>
-
+        <div class="text-center">
+            <a asp-action="Dashboard" class="btn btn-primary btn-lg">Back to Home</a>
+        </div>
+    </div>
+</div>
