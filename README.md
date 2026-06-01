@@ -1,10 +1,9 @@
-
-```markdown
 # Fitness Center Management and Appointment System
 
 A comprehensive, enterprise-grade web application developed as the **Web Programming Course Final Project** for the **2025–2026 Fall Semester**. This project is built using **ASP.NET Core MVC** and demonstrates the application of modern full-stack web development principles, database communications, and advanced features integrated into a real-world software system designed for sports facilities and gym management.
 
-## Key Project Features
+
+##  Key Project Features
 
 ### 1. Service and Coach Management
 * **Dynamic Gym Services:** Full administrative controls (CRUD operations) for managing diverse fitness services, gym memberships, and training packages.
