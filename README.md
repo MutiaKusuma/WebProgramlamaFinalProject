@@ -1,4 +1,3 @@
-This project is the Web Programming Course Final Project for the 2025-2026 Fall Semester.
 
 ```markdown
 # Fitness Center Management and Appointment System
